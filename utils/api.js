@@ -3,22 +3,36 @@ import { AsyncStorage } from 'react-native'
 export const UADCICARDS_STORAGE_KEY = 'UdaciCards'
 
 export function getDecks() {
-    return AsyncStorage.getAllKeys()
-        .then((keys) => (AsyncStorage.multiGet(values).then((data) => JSON.parse(data))))
+    return AsyncStorage.getItem(UADCICARDS_STORAGE_KEY)
+        .then((results) => JSON.parse(results))
 }
 
 export function getDeck(id) {
-    return AsyncStorage.getItem(id)
-        .then((data) => JSON.parse(data))
+    return AsyncStorage.getItem(UADCICARDS_STORAGE_KEY)
+        .then((results) => JSON.parse(results)[id])
 }
 
 export function saveDeckTitle(title) {
-    return AsyncStorage.mergeItem(UADCICARDS_STORAGE_KEY, JSON.stringify({
-        [title]: { title: title }
-    }))
+    return AsyncStorage.getItem(UADCICARDS_STORAGE_KEY)
+        .then((results) => {
+            let data = JSON.parse(results)
+            if (!data[title]) {
+                data[title] = {
+                    title: title,
+                    questions: []
+                }
+                AsyncStorage.setItem(UADCICARDS_STORAGE_KEY, JSON.stringify(data))
+            }
+        })
 }
 
 export function addCardToDeck(title, card) {
-    return AsyncStorage.mergeItem(title, JSON.stringify(card))
+    return AsyncStorage.getItem(UADCICARDS_STORAGE_KEY)
+        .then((results) => {
+            let data = JSON.parse(results)
+            data[title].questions.push(card)
+            const str = JSON.stringify(data)
+            AsyncStorage.setItem(UADCICARDS_STORAGE_KEY, JSON.stringify(data))
+        })
 }
 

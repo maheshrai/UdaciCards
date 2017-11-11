@@ -1,14 +1,16 @@
 import React from 'react'
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import { createStore } from 'redux'
+import { StackNavigator, TabNavigator } from 'react-navigation'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import Deck from './components/Deck'
 import DeckList from './components/DeckList'
+import NewDeck from './components/NewDeck'
 import { purple, white } from './utils/colors'
 import reducer from './reducers'
+import thunk from 'redux-thunk'
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
   return (
@@ -18,15 +20,26 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
   )
 }
 
-const MainNavigator = StackNavigator({
+const Tabs = TabNavigator({
   DeckList: {
     screen: DeckList,
     navigationOptions: {
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: purple,
-      }
-    }
+      tabBarLabel: 'DECKS',
+      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+    },
+  },
+  NewDeck: {
+    screen: NewDeck,
+    navigationOptions: {
+      tabBarLabel: 'NEW DECK',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
+    },
+  }
+})
+
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs,
   },
   Deck: {
     screen: Deck,
@@ -39,10 +52,18 @@ const MainNavigator = StackNavigator({
   }
 })
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(
+  reducer,
+  composeEnhancers(
+      applyMiddleware(thunk))
+)
+
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <View style={{ flex: 1 }}>
           <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
           <MainNavigator />

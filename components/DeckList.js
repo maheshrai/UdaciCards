@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { AppRegistry, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { connect } from 'react-redux'
-import { receiveCards } from '../actions'
+import { receiveDecks } from '../actions'
 import { red, orange, blue, lightPurp, pink, white, purple } from '../utils/colors'
 import { AppLoading } from 'expo'
-import { saveDeckTitle, getDecks } from '../utils/api'
+import { saveDeckTitle, getDecks, addCardToDeck } from '../utils/api'
 
 class DeckList extends Component {
   state = {
@@ -13,6 +13,7 @@ class DeckList extends Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props
     const json = {
       React: {
         title: 'React',
@@ -37,39 +38,35 @@ class DeckList extends Component {
         ]
       }
     }
-    saveDeckTitle('React')
-    saveDeckTitle('JavaScript')
-    this.setState(() => ({ ready: true }))
+    // Load Initial data
+
+    getDecks()
+      .then((decks) => dispatch(receiveDecks(decks)))
+      .then(() => this.setState(() => ({ ready: true })))
   }
 
-  renderItem = ({ item }) => (
+  _keyExtractor = (item, index) => item.title;
+
+  _renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => this.props.navigation.navigate('Deck')}>
+      onPress={() => this.props.navigation.navigate('Deck', { title: item.title })}>
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>{item.key}</Text>
-        <Text style={styles.cardText}>{item.cnt}</Text>
+        <Text style={styles.cardTitle}>{item.title}</Text>
+        <Text style={styles.cardText}>{item.questions ? item.questions.length : 0}</Text>
       </View>
     </TouchableOpacity>)
 
   render() {
-    const { entries } = this.props
+    const { decks } = this.props
     const { ready } = this.state
     if (ready === false) {
       return <AppLoading />
     }
     return (
       <FlatList
-        data={[
-          { key: 'Devin', cnt: 1 },
-          { key: 'Jackson', cnt: 5 },
-          { key: 'James', cnt: 10 },
-          { key: 'Joel', cnt: 3 },
-          { key: 'John', cnt: 2 },
-          { key: 'Jillian', cnt: 4 },
-          { key: 'Jimmy', cnt: 1 },
-          { key: 'Julie', cnt: 1 },
-        ]}
-        renderItem={this.renderItem}
+        data={Object.values(decks)}
+        keyExtractor={this._keyExtractor}
+        renderItem={this._renderItem}
       />
     )
   }
@@ -104,9 +101,9 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(cards) {
+function mapStateToProps(decks) {
   return {
-    cards
+    decks
   }
 }
 export default connect(
