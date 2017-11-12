@@ -10,12 +10,12 @@ class Deck extends Component {
   }
 
   render() {
-    const { card } = this.props
+    const { deck } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.cardContainer}>
-          <Text style={styles.cardTitle}>{card.title}</Text>
-          <Text style={styles.cardText}>{card.questions.length} Cards</Text>
+          <Text style={styles.cardTitle}>{deck.title}</Text>
+          <Text style={styles.cardText}>{deck.questions.length} Cards</Text>
         </View>
         <View style={styles.buttonContainer}>
           <Button
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps(card, { navigation }) {
   const { title } = navigation.state.params
 
   return {
     title,
-    card: state[title],
+    deck: card.decks.find(d => d.title === title),
   }
 }
 

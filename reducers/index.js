@@ -1,20 +1,18 @@
 import { RECEIVE_DECKS, ADD_DECK } from '../actions'
 
-function decks(state = {}, action) {
+function card(state = {}, action) {
     switch (action.type) {
         case RECEIVE_DECKS:
-            return {
-                ...state,
-                ...action.decks,
-            }
+            return Object.assign({}, state, {
+                decks: action.decks
+            })
         case ADD_DECK:
-            return {
-                ...state,
-                ...action.deck
-            }
+            return Object.assign({}, state, {
+                decks: [...state.decks, action.deck]
+            })
         default:
             return state
     }
 }
 
-export default decks
+export default card

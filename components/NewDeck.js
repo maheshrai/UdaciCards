@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, View, StyleSheet, Button } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Button, Alert } from 'react-native';
 import { connect } from 'react-redux'
 import { addNewDeck } from '../actions'
 
@@ -12,7 +12,12 @@ class NewDeck extends Component {
     }
 
     onAddDeck() {
-        this.props.onAddNewDeck(this.state.title)
+        if (!this.props.decks.find(d => d.title === this.state.title)) {
+            this.props.onAddNewDeck(this.state.title)
+            Alert.alert(`${this.state.title} added`)
+        } else {
+            Alert.alert(`${this.state.title} already exists`)
+        }
     }
 
     render() {
@@ -66,7 +71,9 @@ const styles = StyleSheet.create({
     },
 })
 
-const mapStateToProps = (decks) => (decks)
+const mapStateToProps = (card) => ({
+    decks: card.decks
+})
 
 const mapDispatchToProps = dispatch => ({
     onAddNewDeck: (title) => {

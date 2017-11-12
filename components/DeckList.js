@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { receiveDecks } from '../actions'
 import { red, orange, blue, lightPurp, pink, white, purple } from '../utils/colors'
 import { AppLoading } from 'expo'
-import { saveDeckTitle, getDecks, addCardToDeck } from '../utils/api'
+import { saveDeckTitle, getDecks, addCardToDeck, clearDecks } from '../utils/api'
 
 class DeckList extends Component {
   state = {
@@ -39,9 +39,10 @@ class DeckList extends Component {
       }
     }
     // Load Initial data
+    // clearDecks()
 
     getDecks()
-      .then((decks) => dispatch(receiveDecks(decks)))
+      .then((decks) => dispatch(receiveDecks(Object.values(decks))))
       .then(() => this.setState(() => ({ ready: true })))
   }
 
@@ -64,7 +65,7 @@ class DeckList extends Component {
     }
     return (
       <FlatList
-        data={Object.values(decks)}
+        data={decks}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
       />
@@ -101,11 +102,10 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(decks) {
-  return {
-    decks
-  }
-}
+const mapStateToProps = (card) => ({
+  decks: card.decks
+})
+
 export default connect(
   mapStateToProps,
 )(DeckList)

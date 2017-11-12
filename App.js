@@ -25,7 +25,7 @@ const Tabs = TabNavigator({
     screen: DeckList,
     navigationOptions: {
       tabBarLabel: 'DECKS',
-      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='table' size={30} color={tintColor} />
     },
   },
   NewDeck: {

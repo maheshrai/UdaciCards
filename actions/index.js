@@ -13,6 +13,5 @@ export const addDeck = (deck) => ({
 })
 
 export const addNewDeck = (title) => dispatch => (
-    saveDeckTitle(title)
-        .then(deck => dispatch(addDeck(deck)))
+    saveDeckTitle(title).then((deck) => dispatch(addDeck(deck)))
 )
