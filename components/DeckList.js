@@ -108,4 +108,9 @@ const mapStateToProps = (card) => ({
 
 export default connect(
   mapStateToProps,
+  null,
+  null,
+  {
+      pure: false
+  }
 )(DeckList)

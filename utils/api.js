@@ -33,12 +33,13 @@ export function saveDeckTitle(title) {
 }
 
 export function addCardToDeck(title, card) {
-    AsyncStorage.getItem(UADCICARDS_STORAGE_KEY)
+    return AsyncStorage.getItem(UADCICARDS_STORAGE_KEY)
         .then((results) => {
             let data = JSON.parse(results)
             data[title].questions.push(card)
             const str = JSON.stringify(data)
             AsyncStorage.setItem(UADCICARDS_STORAGE_KEY, JSON.stringify(data))
+            return card
         })
 }
 

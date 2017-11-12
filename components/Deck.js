@@ -19,7 +19,7 @@ class Deck extends Component {
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            onPress={this._onPressButton}
+            onPress={() => this.props.navigation.navigate('NewQuestion', { title: deck.title })}
             title="Add Card"
             color="#841584"
           />

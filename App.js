@@ -8,6 +8,7 @@ import { Constants } from 'expo'
 import Deck from './components/Deck'
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
+import NewQuestion from './components/NewQuestion'
 import { purple, white } from './utils/colors'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
@@ -43,6 +44,15 @@ const MainNavigator = StackNavigator({
   },
   Deck: {
     screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  NewQuestion: {
+    screen: NewQuestion,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
