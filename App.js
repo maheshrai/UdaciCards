@@ -9,6 +9,7 @@ import Deck from './components/Deck'
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import NewQuestion from './components/NewQuestion'
+import Quiz from './components/Quiz'
 import { purple, white } from './utils/colors'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
@@ -53,6 +54,15 @@ const MainNavigator = StackNavigator({
   },
   NewQuestion: {
     screen: NewQuestion,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  Quiz: {
+    screen: Quiz,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {

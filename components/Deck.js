@@ -24,7 +24,7 @@ class Deck extends Component {
             color="#841584"
           />
           <Button
-            onPress={this._onPressButton}
+            onPress={() => this.props.navigation.navigate('Quiz', { title: deck.title })}
             title="Start Quiz"
             color="#841584"
           />

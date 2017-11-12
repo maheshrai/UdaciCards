@@ -39,7 +39,7 @@ class DeckList extends Component {
       }
     }
     // Load Initial data
-    // clearDecks()
+    //clearDecks()
 
     getDecks()
       .then((decks) => dispatch(receiveDecks(Object.values(decks))))
