@@ -111,6 +111,6 @@ export default connect(
   null,
   null,
   {
-      pure: false
+    pure: false
   }
 )(DeckList)

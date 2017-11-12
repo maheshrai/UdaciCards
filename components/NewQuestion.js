@@ -17,7 +17,6 @@ class NewQuestion extends Component {
 
     onAddCard() {
         this.props.onAddNewCard(this.props.title, this.state)
-        Alert.alert('Card added successfully!')
         this.props.goBack()
     }
 

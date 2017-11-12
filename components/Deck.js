@@ -5,17 +5,27 @@ import { connect } from 'react-redux'
 
 class Deck extends Component {
 
-  _onPressButton() {
-    Alert.alert('You tapped the button!')
+  constructor(props) {
+    super(props);
+    this.onStartQuiz = this.onStartQuiz.bind(this)
+  }
+
+  onStartQuiz() {
+    const { title, deck } = this.props
+    if (!deck || deck.questions.length == 0) {
+      Alert.alert('The deck has no cards to start the quiz')
+      return
+    }
+    this.props.navigation.navigate('Quiz', { title: title })
   }
 
   render() {
-    const { deck } = this.props
+    const { title, deck } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.cardContainer}>
-          <Text style={styles.cardTitle}>{deck.title}</Text>
-          <Text style={styles.cardText}>{deck.questions.length} Cards</Text>
+          <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={styles.cardText}>{deck ? deck.questions.length : 0} Cards</Text>
         </View>
         <View style={styles.buttonContainer}>
           <Button
@@ -24,7 +34,7 @@ class Deck extends Component {
             color="#841584"
           />
           <Button
-            onPress={() => this.props.navigation.navigate('Quiz', { title: deck.title })}
+            onPress={this.onStartQuiz}
             title="Start Quiz"
             color="#841584"
           />

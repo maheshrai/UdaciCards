@@ -14,7 +14,7 @@ class NewDeck extends Component {
     onAddDeck() {
         if (!this.props.decks.find(d => d.title === this.state.title)) {
             this.props.onAddNewDeck(this.state.title)
-            Alert.alert(`${this.state.title} added`)
+            this.props.navigation.navigate('Deck', { title: this.state.title })
         } else {
             Alert.alert(`${this.state.title} already exists`)
         }
@@ -35,7 +35,7 @@ class NewDeck extends Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={this.onAddDeck}
-                        title="Add Deck"
+                        title="Create Deck"
                         color="#841584"
                     />
                 </View>
