@@ -11,29 +11,21 @@ UdaciCards app is built using React Native. Node and NPM are required to install
 ### Installation
 
 ```
-$ git https://github.com/maheshrai/readable.git
-$ cd readable/api-server
-$ npm install
-In another terminal window
-$ cd readable/frontend
+$ git https://github.com/maheshrai/UdaciCards.git
+$ cd UdaciCards
 $ npm install
 ```
 
 ### How to run
 
 ```
-Start the server
-$ cd readable/api-server
 $ npm start
-Start the web app
-$ cd readable/frontend
-$ npm start
-Launch the browser and navigate to http://localhost:3000/ to get to the app
+
+To run the app on the phone, download expo (https://expo.io/) on your phone and scan the QR code printed on the terminal
 ```
 
 ### Credits
 
-- Icons used in the application were downloaded from Clarity (https://vmware.github.io/clarity/icons/clarity-icons)
-- CSS Stylings were borrowed from CSS Tutorial of W3Schools (https://www.w3schools.com/css)
+- Used the UdaciFitness project as reference while building this project
 
 
