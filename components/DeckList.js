@@ -94,7 +94,10 @@ const mapStateToProps = (card) => ({
 const mapDispatchToProps = dispatch => ({
   onLoadDecks: (decks) => {
     if (decks) dispatch(receiveDecks(Object.values(decks)))
-    else dispatch(receiveDecks(Object.values([])))
+    else {
+      clearDecks()
+      dispatch(receiveDecks(Object.values([])))
+    }
   }
 })
 
