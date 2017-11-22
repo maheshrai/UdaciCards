@@ -15,7 +15,7 @@ class DeckList extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props
-    
+
     getDecks()
       .then((decks) => this.props.onLoadDecks(decks))
       .then(() => this.setState(() => ({ ready: true })))
@@ -94,6 +94,7 @@ const mapStateToProps = (card) => ({
 const mapDispatchToProps = dispatch => ({
   onLoadDecks: (decks) => {
     if (decks) dispatch(receiveDecks(Object.values(decks)))
+    else dispatch(receiveDecks(Object.values([])))
   }
 })
 

@@ -16,7 +16,7 @@ class NewDeck extends Component {
     }
 
     onAddDeck() {
-        if (!this.props.decks.find(d => d.title === this.state.title)) {
+        if (!this.props.decks || !this.props.decks.find(d => d.title === this.state.title)) {
             this.props.onAddNewDeck(this.state.title)
             this.props.navigation.navigate('Deck', { title: this.state.title })
         } else {
