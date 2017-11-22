@@ -16,6 +16,10 @@ class NewQuestion extends Component {
     }
 
     onAddCard() {
+        if (this.state.answer === '' || this.state.question === '') {
+            Alert.alert('Please eneter a valid question and answer')
+            return
+        }
         this.props.onAddNewCard(this.props.title, this.state)
         this.props.goBack()
     }

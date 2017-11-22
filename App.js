@@ -13,6 +13,7 @@ import Quiz from './components/Quiz'
 import { purple, white } from './utils/colors'
 import reducer from './reducers'
 import thunk from 'redux-thunk'
+import { setLocalNotification } from './utils/notification'
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
   return (
@@ -77,10 +78,15 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   reducer,
   composeEnhancers(
-      applyMiddleware(thunk))
+    applyMiddleware(thunk))
 )
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={store}>

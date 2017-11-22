@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, StyleSheet, Button, Alert } from 'react-native';
 import { connect } from 'react-redux'
 import { addNewCard } from '../actions'
+import { setLocalNotification, clearLocalNotification } from '../utils/notification'
 
 class Quiz extends Component {
 
@@ -41,6 +42,8 @@ class Quiz extends Component {
             this.setState({ index: index, card: deck.questions[index], score: score })
         } else {
             this.setState({ quizComplete: true, score: score })
+            clearLocalNotification()
+                .then(setLocalNotification)
         }
     }
 
@@ -74,6 +77,8 @@ class Quiz extends Component {
                         title={showAnswer ? "Question" : "Answer"}
                         color="#841584"
                     />
+                </View>
+                <View style={styles.buttonContainer}>
                     {!quizComplete &&
                         <Button
                             onPress={this.onCorrect}
@@ -81,6 +86,8 @@ class Quiz extends Component {
                             color="#841584"
                         />
                     }
+                </View>
+                <View style={styles.buttonContainer}>
                     {!quizComplete &&
                         <Button
                             onPress={this.onIncorrect}
@@ -88,6 +95,8 @@ class Quiz extends Component {
                             color="#841584"
                         />
                     }
+                </View>
+                <View style={styles.buttonContainer}>
                     {quizComplete &&
                         <Button
                             onPress={this.onRestartQuiz}
@@ -95,6 +104,8 @@ class Quiz extends Component {
                             color="#841584"
                         />
                     }
+                </View>
+                <View style={styles.buttonContainer}>
                     {quizComplete &&
                         <Button
                             onPress={() => { this.props.goBack() }}
@@ -119,7 +130,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     buttonContainer: {
-        margin: 20,
+        margin: 10,
         flexDirection: 'column',
         justifyContent: 'flex-end'
     },

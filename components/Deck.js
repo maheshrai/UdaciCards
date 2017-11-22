@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { AppRegistry, FlatList, StyleSheet, Text, View, Button, Alert, Animated } from 'react-native';
 import { red, orange, blue, lightPurp, pink, white, purple } from '../utils/colors'
 import { connect } from 'react-redux'
 
@@ -8,6 +8,18 @@ class Deck extends Component {
   constructor(props) {
     super(props);
     this.onStartQuiz = this.onStartQuiz.bind(this)
+  }
+
+  state = {
+    bounceValue: new Animated.Value(1)
+  }
+
+  componentDidMount() {
+    const { bounceValue } = this.state
+    Animated.sequence([
+      Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+      Animated.spring(bounceValue, { toValue: 1, friction: 1 })
+    ]).start()
   }
 
   onStartQuiz() {
@@ -21,8 +33,9 @@ class Deck extends Component {
 
   render() {
     const { title, deck } = this.props
+    const { bounceValue } = this.state
     return (
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, { transform: [{ scale: bounceValue }] }]}>
         <View style={styles.cardContainer}>
           <Text style={styles.cardTitle}>{title}</Text>
           <Text style={styles.cardText}>{deck ? deck.questions.length : 0} Cards</Text>
@@ -33,13 +46,15 @@ class Deck extends Component {
             title="Add Card"
             color="#841584"
           />
+        </View>
+        <View style={styles.buttonContainer}>
           <Button
             onPress={this.onStartQuiz}
             title="Start Quiz"
             color="#841584"
           />
         </View>
-      </View>
+      </Animated.View>
     );
   }
 }
@@ -55,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   buttonContainer: {
-    margin: 20,
+    margin: 10,
     flexDirection: 'column',
     justifyContent: 'flex-end'
   },
@@ -91,4 +106,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  {
+    pure: false
+  }
 )(Deck)

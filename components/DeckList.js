@@ -9,7 +9,7 @@ import { saveDeckTitle, getDecks, addCardToDeck, clearDecks } from '../utils/api
 
 class DeckList extends Component {
   state = {
-    ready: false,
+    ready: false
   }
 
   componentDidMount() {
@@ -42,24 +42,26 @@ class DeckList extends Component {
     //clearDecks()
 
     getDecks()
-      .then((decks) => dispatch(receiveDecks(Object.values(decks))))
+      .then((decks) => this.props.onLoadDecks(decks))
       .then(() => this.setState(() => ({ ready: true })))
   }
 
-  _keyExtractor = (item, index) => item.title;
+  _keyExtractor = (item, index) => item.title
 
-  _renderItem = ({ item }) => (
-    <TouchableOpacity
+  _renderItem = ({ item }) => {
+    return <TouchableOpacity
       onPress={() => this.props.navigation.navigate('Deck', { title: item.title })}>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardText}>{item.questions ? item.questions.length : 0}</Text>
+        <Text style={styles.cardText}>{item.questions.length}</Text>
       </View>
-    </TouchableOpacity>)
+    </TouchableOpacity>
+  }
 
   render() {
     const { decks } = this.props
     const { ready } = this.state
+    
     if (ready === false) {
       return <AppLoading />
     }
@@ -68,6 +70,7 @@ class DeckList extends Component {
         data={decks}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
+        extraData={this.state}
       />
     )
   }
@@ -106,9 +109,15 @@ const mapStateToProps = (card) => ({
   decks: card.decks
 })
 
+const mapDispatchToProps = dispatch => ({
+  onLoadDecks: (decks) => {
+    if (decks) dispatch(receiveDecks(Object.values(decks)))
+  }
+})
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
   null,
   {
     pure: false

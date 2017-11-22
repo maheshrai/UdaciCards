@@ -11,6 +11,10 @@ class NewDeck extends Component {
         this.onAddDeck = this.onAddDeck.bind(this)
     }
 
+    componentDidMount() {
+        this.state = { title: '' }
+    }
+
     onAddDeck() {
         if (!this.props.decks.find(d => d.title === this.state.title)) {
             this.props.onAddNewDeck(this.state.title)
