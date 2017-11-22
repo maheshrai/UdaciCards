@@ -24,6 +24,9 @@ $ npm start
 To run the app on the phone, download expo (https://expo.io/) on your phone and scan the QR code printed on the terminal
 ```
 
+### Testing
+The app has been tested on an Android phone and on an iPhone simulator
+
 ### Credits
 
 - Used the UdaciFitness project as reference while building this project
