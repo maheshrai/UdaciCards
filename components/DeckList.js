@@ -9,41 +9,22 @@ import { saveDeckTitle, getDecks, addCardToDeck, clearDecks } from '../utils/api
 
 class DeckList extends Component {
   state = {
-    ready: false
+    ready: false,
+    totalFlashCards: 0
   }
 
   componentDidMount() {
     const { dispatch } = this.props
-    const json = {
-      React: {
-        title: 'React',
-        questions: [
-          {
-            question: 'What is React?',
-            answer: 'A library for managing user interfaces'
-          },
-          {
-            question: 'Where do you make Ajax requests in React?',
-            answer: 'The componentDidMount lifecycle event'
-          }
-        ]
-      },
-      JavaScript: {
-        title: 'JavaScript',
-        questions: [
-          {
-            question: 'What is a closure?',
-            answer: 'The combination of a function and the lexical environment within which that function was declared.'
-          }
-        ]
-      }
-    }
-    // Load Initial data
-    //clearDecks()
-
+    
     getDecks()
       .then((decks) => this.props.onLoadDecks(decks))
       .then(() => this.setState(() => ({ ready: true })))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.totalFlashCards !== nextProps.totalFlashCards) {
+      this.setState({ totalFlashCards: nextProps.totalFlashCards })
+    }
   }
 
   _keyExtractor = (item, index) => item.title
@@ -61,7 +42,7 @@ class DeckList extends Component {
   render() {
     const { decks } = this.props
     const { ready } = this.state
-    
+
     if (ready === false) {
       return <AppLoading />
     }
@@ -106,7 +87,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (card) => ({
-  decks: card.decks
+  decks: card.decks,
+  totalFlashCards: card.flashCardCount
 })
 
 const mapDispatchToProps = dispatch => ({
